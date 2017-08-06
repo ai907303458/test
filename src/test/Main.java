@@ -1,5 +1,6 @@
 package test;
 
+import java.awt.peer.FileDialogPeer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,6 +15,7 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 
+import com.sun.media.sound.FFT;
 import com.sun.org.apache.bcel.internal.generic.ReturnaddressType;
 import com.sun.swing.internal.plaf.basic.resources.basic;
 
@@ -56,7 +58,7 @@ public class Main {
 		int [][] tmp= {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}};
 		int [] a= {5,7,6,9,11,10,8};
 		int [] s= {3,5,7,2,7,6};
-		String [] test= {"i am a coder","Coder Coder","Code"};
+		
 //		System.out.println(findMaxGap(s,6));
 //		int [] te=printMatrix(tmp,4,4);
 //		System.out.println(findLCS("1A2C3D4B56",10,"B1D23CA45B6A",12));
@@ -74,10 +76,61 @@ public class Main {
 //		System.out.println(getMax(test,3,4));
 //		System.out.print(Arrays.toString(findCoder(test,3)));
 //		System.out.println(findCoder(test, 3));
-		Map<String, Integer> map=findCoder(test, 3);
-		for(Map.Entry<String, Integer> entry : map.entrySet()){  
-		    System.out.println(entry.getKey()+","+entry.getValue());  
-		} 
+//		String [] test= {"i am a coder","Coder Coder","Code"};
+//		System.out.print(Arrays.toString(findCoder(test,3)));
+//		Map<String, Integer> map=findCoder(test, 3);
+//		for(Map.Entry<String, Integer> entry : map.entrySet()){  
+//		    System.out.println(entry.getKey()+","+entry.getValue());  
+//		} 
+		int[][] A= {{0,0,1,1},{1,0,1,0},{0,1,1,0},{0,0,1,0}};
+		int[][] f= {{2,2},{3,3},{4,4}};
+		int [][] flip=flipChess(A, f);
+		for(int i=0;i<A.length;i++) {
+			for(int j=0;j<A[0].length;j++) {
+				System.out.print(A[i][j]+",");
+			}
+			System.out.println("");
+		}
+		for(int i=0;i<f.length;i++) {
+			for(int j=0;j<f[0].length;j++) {
+				if(j==0&&f[i][j]>1&&f[i][j]<4) {
+					int k=f[i][j]-1;
+					int up=A[k-1][k];
+					int down=A[k+1][k];
+					System.out.print(up);
+					System.out.print(down);
+//					System.out.print(f[i][j]-1+",");
+//					System.out.print(f[i][j]+1+",");
+				}else {
+					int k=f[i][j]-1;
+					int left=A[k][k-1];
+					int right=A[k][k+1];
+					System.out.print(left);
+					System.out.print(right);
+//					System.out.print(f[i][j]+",");
+				}
+
+			}
+			System.out.println("");
+		}
+	}
+
+	public static int[][] flipChess(int[][] A, int[][] f) {
+		// write code here
+//		for(int i=0;i<f.length;i++) {
+//			for(int j=0;j<f[0].length;j++) {
+//				if(j==0&&f[i][j]>1) {
+//					int tmp=f[i][j]-1;
+//				}
+//			}
+//		}
+		return A;
+	}
+	public static int flip(int A) {
+		if(A==0) {
+			return 1;
+		}
+		return 0;
 	}
 
 	public static String[] findCoder1(String[] A, int n) {
@@ -85,31 +138,75 @@ public class Main {
 		return A;
 	}
 	
-	public static Map<String, Integer> findCoder(String[] A, int n) {
+	public static String[] findCoder(String[] A, int n) {
 		// write code here
+		String coder="coder";
 		Map<String, Integer> map = new HashMap<String, Integer>();
-		int count = 0;
-		int start = 0;
+		
 		for (int i = 0; i < n; i++) {
+			int count = 0;
+			int start = 0;
 			String str = A[i].toLowerCase();
-			if (str.contains("coder")) {
-				while (str.indexOf("coder", start) >= 0 && start < str.length()) {
+			if (str.contains(coder)) {
+				while (str.indexOf(coder, start) >= 0 && start < str.length()) {
 					count++;
-					start = str.indexOf("coder", start) + "coder".length();
+					start = str.indexOf(coder, start) + coder.length();
+//					map.put(str, count);
 				}
 				map.put(str, count);
 			}
 		}
 		
-//		List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(map.entrySet());
-//		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
-//			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
-//				return (o2.getValue()-o1.getValue());
-//			}
-//		});
-//		Set<String> sets = map.keySet();
-//		return (String[]) sets.toArray(new String[sets.size()]);
-		return map;
+		List<Map.Entry<String, Integer>> list = new ArrayList<Map.Entry<String, Integer>>(map.entrySet());
+		Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+			public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+				return (o2.getValue()-o1.getValue());
+			}
+		});
+		Set<String> sets = map.keySet();
+		return (String[]) sets.toArray(new String[sets.size()]);
+//		return map;
+		
+		
+		/*ArrayList<String> reList=new ArrayList<String>();
+        int[] recount=new int[n];
+        String coder="Coder".toLowerCase();
+        for(int i=0;i<n;i++){
+            int count=0;//保存每个字符串包含Coder的次数
+            int start=0;
+            String str=A[i].toLowerCase();
+            while(str.indexOf(coder, start)>=0&&start<A[i].length()){
+                count++;
+                start=str.indexOf(coder, start)+coder.length();
+            }
+            recount[i]=count;
+        }
+        for(int i=0;i<recount.length-1;i++){
+            for(int j=i+1;j<recount.length;j++){
+                if(recount[i]<recount[j]&&recount[i]!=0&&recount[j]!=0){
+                    int tempCo=recount[i];
+                    String temp=A[i];
+                    recount[i]=recount[j];
+                    A[i]=A[j];
+                    for(int k=j;k>=i+2;k--){
+                        recount[k]=recount[k-1];
+                        A[k]=A[k-1];
+                    }
+                    recount[i+1]=tempCo;
+                    A[i+1]=temp;   
+                }
+            }
+        }
+        for(int i=0;i<recount.length;i++){
+            if(recount[i]!=0){
+                reList.add(A[i]);
+            }
+        }
+        String[] reStr = new String[reList.size()];
+        for(int i=0;i<reList.size();i++){
+            reStr[i]=reList.get(i);
+        }
+        return reStr;*/
 	}
 	public static int getPos(int[] A, int n, int val) {
         // write code here
