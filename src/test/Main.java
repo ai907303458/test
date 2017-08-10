@@ -1,133 +1,337 @@
 package test;
 
-import java.awt.peer.FileDialogPeer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Scanner;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
-
-import com.sun.media.sound.FFT;
-import com.sun.org.apache.bcel.internal.generic.ReturnaddressType;
-import com.sun.swing.internal.plaf.basic.resources.basic;
-
-import jdk.nashorn.internal.ir.ReturnNode;
-
+import java.util.Arrays;
+import java.util.Scanner;
 public class Main {
 	public static void main(String[] args) {
-		// Scanner in = new Scanner(System.in);
-		// int count = in.nextInt();
-		// int sum=0;
-		// int [] tmp=new int[count];
-		// int [] tree=new int[count];
-		//
-		// for(int i=0;i<count;i++) {
-		// tree[i]=in.nextInt();
-		// }
-		// for(int i=0;i<count;i++) {
-		// tmp[i]=0;
-		// for(int j=i;j<count;j++) {
-		// if(i==j) {
-		// tmp[i]++;
-		// continue;
-		// }
-		// if(tree[i]<tree[j]) {
-		// if(tree[j]>tree[j++]) {
-		// tmp[i]=tmp[i]+1;
-		// }
-		// }
-		// }
-		// if(sum<tmp[i]) {
-		// sum=tmp[i];
-		// }
-		// }
-		int [][] tmp2= {{426,306,641,372,477,409},
-						{223,172,327,586,363,553},
-						{292,645,248,316,711,295},
-						{127,192,495,208,547,175},
-						{131,448,178,264,207,676},
-						{655,407,309,358,246,714}};
-		int [][] tmp= {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}};
-		int [] a= {5,7,6,9,11,10,8};
-		int [] s= {3,5,7,2,7,6};
+//		String string = "admin";
+//		int [] pre= {1,2,4,7,3,5,6,8};
+//		int [] in= {4,7,2,1,5,3,8,6};
 		
-//		System.out.println(findMaxGap(s,6));
-//		int [] te=printMatrix(tmp,4,4);
-//		System.out.println(findLCS("1A2C3D4B56",10,"B1D23CA45B6A",12));
-//		for(int i=0;i<te.length;i++) {
-//			for(int j=0;j<te[0].length;j++) {
-//				System.out.print(te[i]+",");
+		
+		preorder(treeInit());System.out.println("");
+		inorder(treeInit());System.out.println("");
+		postorder(treeInit());
+//		TreeNode treeNode=reConstructBinaryTree(pre,in);
+//		System.out.print(treeNode);
+//		Queue<TreeNode> arr=new LinkedList<TreeNode>();
+//		arr.offer(treeNode);
+//		while(!arr.isEmpty()) {
+//			TreeNode tn=arr.poll();
+//			System.out.print(tn.val+" ");
+//			if(tn.left!=null) {
+//				arr.add(tn.left);
 //			}
-//			System.out.print("\n");
+//			if(tn.right!=null) {
+//				arr.add(tn.right);	
+//			}
 //		}
-//		for(int i=0;i<test.length-1;i++) {
-//			System.out.println("left:"+getMax(test,0,i));
-//			System.out.println("right:"+getMax(test,i+1,test.length-1));
-//		}
-//		System.out.println(getMax(test,0,2));
-//		System.out.println(getMax(test,3,4));
-//		System.out.print(Arrays.toString(findCoder(test,3)));
-//		System.out.println(findCoder(test, 3));
-//		String [] test= {"i am a coder","Coder Coder","Code"};
-//		System.out.print(Arrays.toString(findCoder(test,3)));
-//		Map<String, Integer> map=findCoder(test, 3);
-//		for(Map.Entry<String, Integer> entry : map.entrySet()){  
-//		    System.out.println(entry.getKey()+","+entry.getValue());  
-//		} 
-		int[][] A= {{0,0,1,1},{1,0,1,0},{0,1,1,0},{0,0,1,0}};
-		int[][] f= {{2,2},{3,3},{4,4}};
-		int [][] flip=flipChess(A, f);
-		for(int i=0;i<A.length;i++) {
-			for(int j=0;j<A[0].length;j++) {
-				System.out.print(A[i][j]+",");
-			}
-			System.out.println("");
-		}
-		for(int i=0;i<f.length;i++) {
-			for(int j=0;j<f[0].length;j++) {
-				if(j==0&&f[i][j]>1&&f[i][j]<4) {
-					int k=f[i][j]-1;
-					int up=A[k-1][k];
-					int down=A[k+1][k];
-					System.out.print(up);
-					System.out.print(down);
-//					System.out.print(f[i][j]-1+",");
-//					System.out.print(f[i][j]+1+",");
-				}else {
-					int k=f[i][j]-1;
-					int left=A[k][k-1];
-					int right=A[k][k+1];
-					System.out.print(left);
-					System.out.print(right);
-//					System.out.print(f[i][j]+",");
-				}
 
-			}
-			System.out.println("");
-		}
+//		Scanner scan = new Scanner(System.in);
+//       
+//        while(scan.hasNext()) {
+//        	 String input = scan.next();
+////        	 System.out.println(fun(input));
+//        }
 	}
+	/** 构造树 */    
+    public static TreeNode treeInit() {    
+    	TreeNode a = new TreeNode('A');    
+		TreeNode b = new TreeNode('B', null, a);    
+		TreeNode c = new TreeNode('C');    
+		TreeNode d = new TreeNode('D', b, c);    
+		TreeNode e = new TreeNode('E');    
+		TreeNode f = new TreeNode('F', e, null);    
+		TreeNode g = new TreeNode('G', null, f);    
+		TreeNode h = new TreeNode('H', d, g);   
+        return h;// root    
+    }   
+	/** 访问节点 */    
+    public static void visit(TreeNode p) {    
+        System.out.print(p.getVal() + " ");    
+    }  
+    
+	protected static void preorder(TreeNode p) {    
+        if (p != null) {    
+            visit(p);    
+            preorder(p.getLeft());    
+            preorder(p.getRight());    
+        }    
+    } 
+	/** 递归实现中序遍历 */    
+    protected static void inorder(TreeNode p) {    
+        if (p != null) {    
+            inorder(p.getLeft());    
+            visit(p);    
+            inorder(p.getRight());    
+        }    
+    }    
+    
+    /** 递归实现后序遍历 */    
+    protected static void postorder(TreeNode p) {    
+        if (p != null) {    
+            postorder(p.getLeft());    
+            postorder(p.getRight());    
+            visit(p);    
+        }    
+    }    
+//	public static TreeNode reConstructBinaryTree(int [] pre,int [] in) {
+//        if(pre.length==0||in.length==0){
+//            return null;
+//        }
+//        TreeNode root=new TreeNode(pre[0]);
+//        int tmp=0;
+//        for(int i=0;i<in.length;i++){
+//            if(in[i]==pre[0]){
+//                break;
+//            }
+//            tmp++;
+//        }
+//        int [] QL=new int[tmp];
+//        int [] QR=new int[pre.length-tmp-1];
+//        int [] HL=new int[tmp];
+//        int [] HR=new int[in.length-tmp-1];
+//        for(int i=0;i<in.length;i++){
+//            if(i<tmp){
+//                HL[i]=in[i];
+//                QL[i]=pre[i+1];
+//            }else if(i>tmp){
+//                HR[i-tmp-1]=in[i];
+//                QR[i-tmp-1]=pre[i]; 
+//            }
+//        }
+//        root.left=reConstructBinaryTree(QL,HL);
+//        root.right=reConstructBinaryTree(QR,HR);
+//        return root;
+//    }
+	public static String fun(String str) {
+        HashMap<Character, Integer> mp1 = new HashMap();
+        HashMap<Character, Integer> mp2 = new HashMap();
+        int[] count = new int[26];
+        char[] ch = str.toCharArray();
+        for (int i = 0; i < str.length(); ++i) {
+            if (i > 0 && ch[i] == ch[i - 1])
+                return "Dislikes";
+            if (ch[i] < 'A' || ch[i] > 'Z')
+                return "Dislikes";
+            count[ch[i] - 'A']++;
+            if (count[ch[i] - 'A'] > 3) {// 这个判断同一个字符出现4次的情况
+                return "Dislikes";
+            }
+            if (!mp1.containsKey(ch[i]))
+                mp1.put(ch[i], i);
+            else {
+                Iterator iter = mp2.keySet().iterator();
+                while (iter.hasNext()) {
+                    Object key = iter.next();
+                    int val = mp2.get(key);
+                    if (mp1.get(key) < mp1.get(ch[i]) && (val > mp1.get(ch[i]))) {
+                        return "Dislikes";
+                    }
+                }
+                mp2.put(ch[i], i);
+            }
+        }
+        return "Likes";
+    }
+
+	public static String like(String s){
+		for(int i =0;i<s.length();i++){
+			if(!(s.charAt(i)>='A'&& s.charAt(i)<='Z'))
+				return "Dislikes";
+			if(i+1<s.length() && s.charAt(i)== s.charAt(i+1))
+				return "Dislikes";
+			if(i+4<s.length() && s.charAt(i)== s.charAt(i+3) && s.charAt(i+2)== s.charAt(i+4))
+				return "Dislikes";
+		}
+		return "Likes";
+	}
+	public static Boolean isHui(String str) {
+		for(int i=0;i<str.length();i++) {
+			if(str.charAt(i)!=str.charAt(str.length()-i-1)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	public static long getH(long l) {
+		int count=0;
+		long q=(long)Math.sqrt(l)-1;
+		while(q*q+q<=l) {
+			q++;
+		}
+		return q-1;
+	}
+	public static int pailie(int [] A,int sum)
+    {
+		if(sum%A.length!=0) {
+			return -1;
+		}
+		int count=0;
+		int avg=sum/A.length;
+		int []tmp=new int[A.length];
+        for(int i=0;i<A.length;i++) {
+        	tmp[i]=A[i]-avg;
+        	if(tmp[i]%2!=0) {
+        		return -1;
+        	}
+        }
+        Arrays.sort(tmp);
+        for(int i=0;i<tmp.length;i++) {
+        	if(tmp[i]>=0) {
+        		break;
+        	}
+        	while(tmp[i]<0) {
+        		count++;
+        		tmp[i]+=2;
+        	}
+        }
+        return count;
+    }
+
+	
+	public static int bSum(int n) {
+		int sum=0;
+		String str=Integer.toBinaryString(n);
+		for(int i=0;i<str.length();i++) {
+			if(str.charAt(i)=='1') {
+				sum++;
+			}
+		}
+		return sum;
+	}
+
+	public static int dSum(int n) {
+		int sum=0;
+		String str=String.valueOf(n);
+		for(int i=0;i<str.length();i++) {
+			sum+=Integer.parseInt(String.valueOf(str.charAt(i)));
+		}
+		return sum;
+	}
+	public static Boolean isZhishu(int n){
+        for(int i=2;i<n;i++){
+            if(n%i==0){
+                return false;
+            }
+        }
+        return true;
+    }
+	public static Boolean isZidian(String[] A) {
+		String[] B = new String[A.length];
+		for (int i = 0; i < A.length; i++) {
+			B[i] = A[i];
+		}
+		Arrays.sort(B);
+		for (int i = 0; i < A.length; i++) {
+			if (!A[i].equals(B[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static Boolean isLongth(String[] A) {
+		for (int i = 0; i < A.length - 1; i++) {
+			if (A[i].length() > A[i + 1].length()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	 public static int getInitial(int n) {
+	        // write code here
+	        if(n==1){
+	            return 1;
+	        }
+	        int i=2;
+	        int sum=0;
+	        int count=1;
+	        while(i<=n){
+	            sum=i*count+1;
+	            count=sum;
+	            i++;
+	        }
+	        return sum;
+	    }
+	
+	public static String formatString(String A, int n, char[] arg, int m) {
+        // write code here
+		int count=0;
+		String tmp="";
+		String res="";
+		char [] ch=new char[A.length()];
+		ch=A.toCharArray();
+		for(int i=0;i<ch.length-1;i++) {
+			if(ch[i]=='%'&&ch[i+1]=='s') {
+				ch[i]=arg[count++];
+				ch[i+1]=' ';
+			}
+		}
+		if(count<arg.length) {
+			
+			for(int i=count;i<arg.length;i++) {
+				tmp+=arg[i];
+			}
+		}
+		for(int i=0;i<ch.length;i++) {
+			if(ch[i]!=' ') {
+				res+=ch[i];
+			}
+		}
+		res+=tmp;
+		return res;
+    }
+	
 
 	public static int[][] flipChess(int[][] A, int[][] f) {
 		// write code here
-//		for(int i=0;i<f.length;i++) {
-//			for(int j=0;j<f[0].length;j++) {
-//				if(j==0&&f[i][j]>1) {
-//					int tmp=f[i][j]-1;
-//				}
-//			}
-//		}
+		for (int i = 0; i < f.length; i++) {
+			int h = 0;
+			int v = 0;
+			for (int j = 0; j < f[0].length; j++) {
+				if (j == 0) {
+					h = f[i][j] - 1;
+				} else {
+					v = f[i][j] - 1;
+				}
+			}
+			if (h > 0 && h < 3) {
+				A[h - 1][v]=flip(A[h - 1][v]);
+				A[h + 1][v]=flip(A[h + 1][v]);
+			} else if (h == 3) {
+				A[h - 1][v]=flip(A[h - 1][v]);
+			} else {
+				A[h + 1][v]=flip(A[h + 1][v]);
+			}
+			if (v > 0 && v < 3) {
+				A[h][v - 1]=flip(A[h][v - 1]);
+				A[h][v + 1]=flip(A[h][v + 1]);
+			} else if (v == 3) {
+				A[h][v - 1]=flip(A[h][v - 1]);
+			} else {
+				A[h][v + 1]=flip(A[h][v + 1]);
+			}
+			System.out.println("");
+		}
 		return A;
 	}
+
 	public static int flip(int A) {
-		if(A==0) {
+		if (A == 0) {
 			return 1;
 		}
 		return 0;
