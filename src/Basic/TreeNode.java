@@ -1,4 +1,4 @@
-package test;
+package Basic;
 
 public class TreeNode {
 	private int IntVal;
@@ -8,12 +8,42 @@ public class TreeNode {
 	private TreeNode left;
 	private TreeNode right;
 
-	TreeNode(int x) {
+	public TreeNode(int x) {
 		this.IntVal = x;
 	}
 
-	TreeNode(char x, TreeNode l, TreeNode r) {
+	public TreeNode(char x, TreeNode l, TreeNode r) {
 		this.CharVal = x;
+		this.left = l;
+		this.right = r;
+	}
+
+	public TreeNode(char x) {
+		this.CharVal = x;
+	}
+
+	public TreeNode(int x, TreeNode l, TreeNode r) {
+		this.IntVal = x;
+		this.left = l;
+		this.right = r;
+	}
+
+	public TreeNode(String x) {
+		this.StrVal = x;
+	}
+
+	public TreeNode(String x, TreeNode l, TreeNode r) {
+		this.StrVal = x;
+		this.left = l;
+		this.right = r;
+	}
+
+	public TreeNode(long x) {
+		this.LongVal = x;
+	}
+
+	public TreeNode(long x, TreeNode l, TreeNode r) {
+		this.LongVal = x;
 		this.left = l;
 		this.right = r;
 	}
@@ -66,33 +96,4 @@ public class TreeNode {
 		this.right = right;
 	}
 
-	TreeNode(char x) {
-		this.CharVal = x;
-	}
-
-	TreeNode(int x, TreeNode l, TreeNode r) {
-		this.IntVal = x;
-		this.left = l;
-		this.right = r;
-	}
-
-	TreeNode(String x) {
-		this.StrVal = x;
-	}
-
-	TreeNode(String x, TreeNode l, TreeNode r) {
-		this.StrVal = x;
-		this.left = l;
-		this.right = r;
-	}
-
-	TreeNode(long x) {
-		this.LongVal = x;
-	}
-
-	TreeNode(long x, TreeNode l, TreeNode r) {
-		this.LongVal = x;
-		this.left = l;
-		this.right = r;
-	}
 }

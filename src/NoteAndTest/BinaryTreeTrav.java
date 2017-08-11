@@ -1,8 +1,10 @@
-package test;
+package NoteAndTest;
 
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
+
+import Basic.TreeNode;
 
 public class BinaryTreeTrav {
 	/**
@@ -67,10 +69,10 @@ public class BinaryTreeTrav {
 	/**
 	 * 非递归前序遍历2 
 	 * 每次都是走树的左分支(left)，直到左子树为空，然后开始从递归的最深处返回，然后开始恢复递归现场，访问右子树。
-	 * 其实过程很简单：一直往左走 root->left->left->left...->null，由于是先序遍历，因此一遇到节点，便需要立即访问；
+	 * 其实过程很简单：
+	 * 一直往左走 root->left->left->left...->null，由于是先序遍历，因此一遇到节点，便需要立即访问；
 	 * 由于一直走到最左边后，需要逐步返回到父节点访问右节点，因此必须有一个措施能够对节点序列回溯。
-	 * 用栈记忆：在访问途中将依次遇到的节点保存下来。由于节点出现次序与恢复次序是反序的，因此是一个先进后出结构，需要用栈。 
-	 * 对于任一结点P：
+	 * 用栈记忆：在访问途中将依次遇到的节点保存下来。由于节点出现次序与恢复次序是反序的，因此是一个先进后出结构，需要用栈。 对于任一结点P：
 	 * 1)访问结点P，并将结点P入栈;
 	 * 2)判断结点P的左孩子是否为空，若为空，则取栈顶结点并进行出栈操作，并将栈顶结点的右孩子置为当前的结点P，循环至1);若不为空，则将P的左孩子置为当前的结点P;
 	 * 3)直到P为NULL并且栈为空，则遍历结束。
@@ -109,12 +111,9 @@ public class BinaryTreeTrav {
 	/**
 	 * 非递归中序遍历1 
 	 * 根据中序遍历的顺序，对于任一结点，优先访问其左孩子，而左孩子结点又可以看做一根结点，然后继续访问其左孩子结点，
-	 * 直到遇到左孩子结点为空的结点才进行访问，然后按相同的规则访问其右子树。
-	 *  因此其处理过程如下：
-	 *   对于任一结点P，
+	 * 直到遇到左孩子结点为空的结点才进行访问，然后按相同的规则访问其右子树。 因此其处理过程如下： 对于任一结点P，
 	 * 1)若其左孩子不为空，则将P入栈并将P的左孩子置为当前的P，然后对当前结点P再进行相同的处理；
-	 * 2)若其左孩子为空，则取栈顶元素并进行出栈操作，访问该栈顶结点，然后将当前的P置为栈顶结点的右孩子； 
-	 * 3)直到P为NULL并且栈为空则遍历结束
+	 * 2)若其左孩子为空，则取栈顶元素并进行出栈操作，访问该栈顶结点，然后将当前的P置为栈顶结点的右孩子； 3)直到P为NULL并且栈为空则遍历结束
 	 * 
 	 * @param p
 	 */
@@ -176,10 +175,10 @@ public class BinaryTreeTrav {
 	}
 
 	/**
-	 * 非递归实现后序遍历1
-	 * 对于任一结点P，
+	 * 非递归实现后序遍历1 
+	 * 对于任一结点P， 
 	 * 1)将其入栈，然后沿其左子树一直往下搜索入栈，直到搜索到没有左孩子的结点，
-	 * 2）P不存在右孩子或者右孩子已经被访问，则可以直接访问它；
+	 * 2）P不存在右孩子或者右孩子已经被访问，则可以直接访问它； 
 	 * 3)若非上述两种情况，说明p有右孩子没有访问，将p入栈，并将p设为p的右孩子，
 	 *
 	 * @param p
@@ -194,7 +193,7 @@ public class BinaryTreeTrav {
 				stack.push(p);
 				p = p.getLeft();
 			}
-			// 当前节点无右子或右子已经输出
+			// 当前节点无右孩子或右孩子已经访问
 			while (p != null && (p.getRight() == null || p.getRight() == node)) {
 				visit(p);
 				node = p;// 记录上一个已输出节点,判断是否输出过
@@ -208,14 +207,13 @@ public class BinaryTreeTrav {
 			p = p.getRight();
 		}
 	}
-	
+
 	/**
 	 * 非递归实现后序遍历2 单栈法
-	 * 对于任一结点P，
-	 * 1）将其入栈，然后沿其左子树一直往下搜索入栈，直到搜索到没有左孩子的结点，
-	 * 此时该结点出现在栈顶，但是此时不能将其出栈并访问，因此其右孩子还未被访问。
-	 * 所以接下来按照相同的规则对其右子树进行相同的处理，当访问完其右孩子时，该结点又出现在栈顶， 此时可以将其出栈并访问。这样就保证了正确的访问顺序。
-	 * 可以看出，在这个过程中，每个结点都两次出现在栈顶，只有在第二次出现在栈顶时，才能访问它。 因此需要多设置一个变量标识该结点是否是第一次出现在栈顶。
+	 *  对于任一结点P， 
+	 * 1)将其入栈，然后沿其左子树一直往下搜索入栈，直到搜索到没有左孩子的结点，
+	 * 2)判断栈顶元素右孩子，为空或已访问过，则输出该节点的值。 
+	 * 3)栈顶元素右孩子不为空，重新开始
 	 * 
 	 * @param p
 	 */
@@ -224,18 +222,22 @@ public class BinaryTreeTrav {
 		Stack<TreeNode> stack = new Stack<TreeNode>();
 		TreeNode node = p, prev = p;
 		while (node != null || stack.size() > 0) {
+			// 左孩子入栈
 			while (node != null) {
 				stack.push(node);
 				node = node.getLeft();
 			}
 			if (stack.size() > 0) {
+				// 栈顶元素右孩子，不出栈
 				TreeNode temp = stack.peek().getRight();
+				// 右孩子为空或已访问过
 				if (temp == null || temp == prev) {
 					node = stack.pop();
 					visit(node);
 					prev = node;
 					node = null;
 				} else {
+					// 右孩子没有访问过，重头开始
 					node = temp;
 				}
 			}
@@ -243,30 +245,31 @@ public class BinaryTreeTrav {
 	}
 
 	/**
-	 * 非递归实现后序遍历3
-	 * 1)对于任一结点P，先将其入栈。
+	 * 非递归实现后序遍历3 
+	 * 1)对于任一结点P，先将其入栈。 
 	 * 2)如果P不存在左孩子和右孩子，则可以直接访问它；
 	 * 3)如果P存在左孩子或者右孩子，但是其左孩子或右孩子都已被访问过了，则同样可以直接访问该结点。
 	 * 4)若非上述两种情况，则将P的右孩子和左孩子依次入栈，这样就保证了每次取栈顶元素的时候，
 	 * 保证了每次取栈顶元素的时候，左孩子在右孩子前面被访问，左孩子和右孩子都在根结点前面被访问
+	 * 
 	 * @param p
 	 */
 	public void postOrder3(TreeNode p) {
 
 		Stack<TreeNode> stack = new Stack<TreeNode>();
-		TreeNode node,prev = p;
+		TreeNode node, prev = p;
 		stack.push(p);
 		while (!stack.isEmpty()) {
-			//取栈顶元素，但不弹出
+			// 取栈顶元素，但不弹出
 			node = stack.peek();
-			//如果左孩子和右孩子都为空||其左孩子或右孩子都已被访问过了
-			if ((node.getLeft() == null && node.getRight() == null)|| 
-				(prev == node.getLeft() || prev == node.getRight())) {
+			// 如果左孩子和右孩子都为空||其左孩子或右孩子都已被访问过了
+			if ((node.getLeft() == null && node.getRight() == null)
+					|| (prev == node.getLeft() || prev == node.getRight())) {
 				visit(node);
 				stack.pop();
 				prev = node;
 			} else {
-				//将P的右孩子和左孩子依次入栈
+				// 将P的右孩子和左孩子依次入栈
 				if (node.getRight() != null) {
 					stack.push(node.getRight());
 				}

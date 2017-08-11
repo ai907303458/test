@@ -1,4 +1,4 @@
-package test;
+package NoteAndTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,9 +14,12 @@ public class Main {
 	public static void main(String[] args) {
 		// String string = "admin";
 		// int [] pre= {1,2,4,7,3,5,6,8};
-		// int [] in= {4,7,2,1,5,3,8,6};
+		 int [] in= {4,7,2,1,5,3,8,6};
 
 		BinaryTreeTrav btt = new BinaryTreeTrav();
+		Sorts sorts=new Sorts();
+		sorts.HeapSort(in);
+		System.out.print(Arrays.toString(in));
 		// btt.preorder(btt.treeInit());
 		// System.out.println("");
 		// btt.inorder(btt.treeInit());
@@ -30,10 +33,10 @@ public class Main {
 //		System.out.println("");
 //		btt.inOrder2(btt.treeInit());
 //		System.out.println("");
-		btt.postOrder1(btt.treeInit());
-		System.out.println("");
-		btt.postOrder3(btt.treeInit());
-		System.out.println("");
+//		btt.postOrder1(btt.treeInit());
+//		System.out.println("");
+//		btt.postOrder3(btt.treeInit());
+//		System.out.println("");
 //		btt.postOrder3(btt.treeInit());
 //		System.out.println("");
 //		btt.postOrder4(btt.treeInit());

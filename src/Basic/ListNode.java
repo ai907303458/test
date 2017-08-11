@@ -1,4 +1,4 @@
-package test;
+package Basic;
 
 public class ListNode {
 	private int IntVal;
