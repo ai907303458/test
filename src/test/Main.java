@@ -22,7 +22,23 @@ public class Main {
 		// btt.inorder(btt.treeInit());
 		// System.out.println("");
 		// btt.postorder(btt.treeInit());
-		btt.boardOrder(btt.treeInit());
+//		btt.preOrder1(btt.treeInit());
+//		System.out.println("");
+//		btt.preOrder2(btt.treeInit());
+//		System.out.println("");
+//		btt.inOrder1(btt.treeInit());
+//		System.out.println("");
+//		btt.inOrder2(btt.treeInit());
+//		System.out.println("");
+		btt.postOrder1(btt.treeInit());
+		System.out.println("");
+		btt.postOrder3(btt.treeInit());
+		System.out.println("");
+//		btt.postOrder3(btt.treeInit());
+//		System.out.println("");
+//		btt.postOrder4(btt.treeInit());
+//		System.out.println("");
+//		btt.boardOrder(btt.treeInit());
 		// Scanner scan = new Scanner(System.in);
 		//
 		// while(scan.hasNext()) {

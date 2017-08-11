@@ -1,12 +1,12 @@
 package test;
 
 public class TreeNode {
-	int IntVal;
-	char CharVal;
-	String StrVal;
-	long LongVal;
-	TreeNode left;
-	TreeNode right;
+	private int IntVal;
+	private char CharVal;
+	private String StrVal;
+	private long LongVal;
+	private TreeNode left;
+	private TreeNode right;
 
 	TreeNode(int x) {
 		this.IntVal = x;
