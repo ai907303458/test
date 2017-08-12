@@ -6,42 +6,47 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
+
+import com.sun.org.apache.bcel.internal.generic.ReturnInstruction;
+import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
+import com.sun.security.auth.NTDomainPrincipal;
+
+import Basic.TreeNode;
 
 public class Main {
 	public static void main(String[] args) {
 		// String string = "admin";
 		// int [] pre= {1,2,4,7,3,5,6,8};
-		 int [] in= {4,7,2,1,5,3,8,6};
-
+		 int [] in= {4,7,2,1,5,8,6,15,4};
+		 char[] ch= {'A','B','C','D','E','F','G','H'};
 		BinaryTreeTrav btt = new BinaryTreeTrav();
 		Sorts sorts=new Sorts();
-		sorts.HeapSort(in);
-		System.out.print(Arrays.toString(in));
-		// btt.preorder(btt.treeInit());
-		// System.out.println("");
-		// btt.inorder(btt.treeInit());
-		// System.out.println("");
-		// btt.postorder(btt.treeInit());
+		sorts.QuickSort1(in,0,in.length-1);
+		System.out.println(Arrays.toString(in));
+//		System.out.println(Arrays.toString(sorts.BubbleSort1(in)));
+
+		order(btt.treeInit());
 //		btt.preOrder1(btt.treeInit());
 //		System.out.println("");
-//		btt.preOrder2(btt.treeInit());
+//		preOrder(btt.treeInit());
 //		System.out.println("");
+
 //		btt.inOrder1(btt.treeInit());
 //		System.out.println("");
-//		btt.inOrder2(btt.treeInit());
+//		inOrder(btt.treeInit());
 //		System.out.println("");
+//
 //		btt.postOrder1(btt.treeInit());
 //		System.out.println("");
-//		btt.postOrder3(btt.treeInit());
+//		postOrder(btt.treeInit());
 //		System.out.println("");
-//		btt.postOrder3(btt.treeInit());
-//		System.out.println("");
-//		btt.postOrder4(btt.treeInit());
-//		System.out.println("");
-//		btt.boardOrder(btt.treeInit());
+
 		// Scanner scan = new Scanner(System.in);
 		//
 		// while(scan.hasNext()) {
@@ -50,35 +55,104 @@ public class Main {
 		// }
 	}
 
-	// public static TreeNode reConstructBinaryTree(int [] pre,int [] in) {
-	// if(pre.length==0||in.length==0){
-	// return null;
-	// }
-	// TreeNode root=new TreeNode(pre[0]);
-	// int tmp=0;
-	// for(int i=0;i<in.length;i++){
-	// if(in[i]==pre[0]){
-	// break;
-	// }
-	// tmp++;
-	// }
-	// int [] QL=new int[tmp];
-	// int [] QR=new int[pre.length-tmp-1];
-	// int [] HL=new int[tmp];
-	// int [] HR=new int[in.length-tmp-1];
-	// for(int i=0;i<in.length;i++){
-	// if(i<tmp){
-	// HL[i]=in[i];
-	// QL[i]=pre[i+1];
-	// }else if(i>tmp){
-	// HR[i-tmp-1]=in[i];
-	// QR[i-tmp-1]=pre[i];
-	// }
-	// }
-	// root.left=reConstructBinaryTree(QL,HL);
-	// root.right=reConstructBinaryTree(QR,HR);
-	// return root;
-	// }
+	public static void order(TreeNode tn) {
+		Queue<TreeNode> queue=new LinkedList<TreeNode>();
+		queue.offer(tn);
+		while(!queue.isEmpty()) {
+			TreeNode tmp=queue.poll();
+			visit(tmp);
+			if(tmp.getLeft()!=null) {
+				queue.add(tmp.getLeft());
+			}
+			if(tmp.getRight()!=null) {
+				queue.add(tmp.getRight());
+			}
+		}
+	}
+	public static void preOrder(TreeNode tn) {
+		Stack<TreeNode> stack=new Stack<TreeNode>();
+		TreeNode node=tn;
+		while(node!=null||!stack.isEmpty()) {
+			
+			while(node!=null) {
+				visit(node);
+				stack.push(node);
+				node=node.getLeft();
+			}
+			if(!stack.isEmpty()) {
+				node=stack.pop();
+				node=node.getRight();
+			}
+		}
+	}
+	public static void inOrder(TreeNode tn) {
+		Stack<TreeNode> stack =new Stack<TreeNode>();
+		TreeNode tmp=tn;
+		while(tmp!=null||!stack.isEmpty()) {
+			while(tmp!=null) {
+				stack.push(tmp);
+				tmp=tmp.getLeft();
+			}
+			if(!stack.isEmpty()) {
+				tmp=stack.pop();
+				visit(tmp);
+				tmp=tmp.getRight();
+			}
+		}
+	}
+	public static void postOrder(TreeNode tn) {
+		Stack<TreeNode> stack=new Stack<TreeNode>();
+		TreeNode node=tn,prev=tn;
+		while(node!=null||!stack.isEmpty()) {
+			while(node!=null) {
+				stack.push(node);
+				node=node.getLeft();
+			}
+			if(!stack.isEmpty()) {
+				TreeNode tmp=stack.peek().getRight();
+				if(tmp==null||tmp==prev) {
+					node=stack.pop();
+					visit(node);
+					prev=node;
+					node=null;
+				}
+				else {
+					node=tmp;
+				}
+			}
+		}
+	}
+	public static void visit(int [] array) {
+		for(int i=0;i<array.length-1;i++) {
+			System.out.print(array[i]+" ");
+		}
+		System.out.println(array[array.length-1]);
+	}
+	/**
+	 * 访问节点
+	 */
+	public static void visit(TreeNode p) {
+		System.out.print(p.getCharVal() + " ");
+	}
+	
+	public static int[] SelectSort(int[] array) {
+		int l=array.length;
+		for(int i=0;i<l-1;i++) {
+			for(int j=i+1;j<l;j++) {
+				if(array[i]<array[j]) {
+					exChange(array,i,j);
+				}
+			}
+		}
+		return array;
+	}
+	
+	private static void exChange(int[] a, int i, int n) {
+		// TODO Auto-generated method stub
+		int temp = a[i];
+		a[i] = a[n];
+		a[n] = temp;
+	}
 
 	public static String like(String s) {
 		for (int i = 0; i < s.length(); i++) {
