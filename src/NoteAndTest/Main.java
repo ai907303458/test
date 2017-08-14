@@ -6,55 +6,122 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
-
-import com.sun.org.apache.bcel.internal.generic.ReturnInstruction;
-import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
-import com.sun.security.auth.NTDomainPrincipal;
+import java.util.TreeSet;
 
 import Basic.TreeNode;
 
 public class Main {
 	public static void main(String[] args) {
-		// String string = "admin";
-		// int [] pre= {1,2,4,7,3,5,6,8};
-		 int [] in= {4,7,2,1,5,8,6,15,4};
-		 char[] ch= {'A','B','C','D','E','F','G','H'};
-		BinaryTreeTrav btt = new BinaryTreeTrav();
-		Sorts sorts=new Sorts();
-		sorts.QuickSort1(in,0,in.length-1);
-		System.out.println(Arrays.toString(in));
+//		 int [] in= {4,7,2,1,5,8,6,15,4};
+//		BinaryTreeTrav btt = new BinaryTreeTrav();
+//		Sorts sorts=new Sorts();
+//		sorts.QuickSort1(in,0,in.length-1);
+//		System.out.println(Arrays.toString(in));
 //		System.out.println(Arrays.toString(sorts.BubbleSort1(in)));
 
-		order(btt.treeInit());
-//		btt.preOrder1(btt.treeInit());
-//		System.out.println("");
-//		preOrder(btt.treeInit());
-//		System.out.println("");
-
-//		btt.inOrder1(btt.treeInit());
-//		System.out.println("");
-//		inOrder(btt.treeInit());
-//		System.out.println("");
-//
-//		btt.postOrder1(btt.treeInit());
-//		System.out.println("");
-//		postOrder(btt.treeInit());
-//		System.out.println("");
-
-		// Scanner scan = new Scanner(System.in);
-		//
-		// while(scan.hasNext()) {
-		// String input = scan.next();
-		//// System.out.println(fun(input));
-		// }
+		
+		Scanner scan = new Scanner(System.in);
+		Set<Integer> s=new TreeSet<Integer>();
+		while (scan.hasNext()) {
+			int tmp = scan.nextInt();
+			for(int i=0;i<tmp;i++) {
+				s.add(scan.nextInt());
+			}
+			for(int value:s){  
+	            System.out.println(value);  
+	        } 
+//			System.out.println(getNum(tmp));
+		}
+		scan.close();
 	}
 
+public static int getNum(int A) {
+	int count=0;
+	int cnt=A;
+	while(cnt>=3) {
+		count+=cnt/3;
+		cnt=cnt/3+cnt%3;
+	}
+	if(cnt==2) {
+		count++;
+	}
+	return count;
+}
+	public static int XtoD(char ch) {
+		int num=0;
+		switch(ch) {
+		case 'A':
+			num=10;
+			break;
+		case 'B':
+			num=11;
+			break;
+		case 'C':
+			num=12;
+			break;
+		case 'D':
+			num=13;
+			break;
+		case 'E':
+			num=14;
+			break;
+		case 'F':
+			num=15;
+			break;
+		default:
+			num=(int)ch-48;
+			break;
+		}
+		return num;
+	}
+
+	public static double count(int num) {
+		double sum=1;
+		for(int i=1;i<=num;i++) {
+			sum*=i;
+		}
+		return sum;
+	}
+	public static int[] suger(int [] arr) {
+		int []res=new int[3];
+		int A1,B1,B2,C1;
+		A1=(arr[0]+arr[2])/2;
+		B1=(arr[2]-arr[0])/2;
+		B2=(arr[1]+arr[3])/2;
+		C1=(arr[3]-arr[1])/2;
+		if(B1==B2) {
+			res[0]=A1;
+			res[1]=B1;
+			res[2]=C1;
+		}
+		return res;
+	}
+	
+	public static int rev(int num) {
+		String str=String.valueOf(num);
+		String tmp = "";
+		for(int i=str.length()-1;i>=0;i--) {
+			tmp+=str.charAt(i);
+		}
+		return Integer.parseInt(tmp);
+//		int qian=num/1000;
+//		int bai=(num%1000)/100;
+//		int shi=((num%1000)%100)/10;
+//		int ge=((num%1000)%100)%10;
+//		if(qian!=1) {
+//			return ge*100+shi*10+bai;
+//		}else {
+//			return ge*1000+shi*100+bai*10+qian;
+//		}		
+	}
 	public static void order(TreeNode tn) {
 		Queue<TreeNode> queue=new LinkedList<TreeNode>();
 		queue.offer(tn);
