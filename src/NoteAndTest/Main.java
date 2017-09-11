@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -11,38 +12,376 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
 import Basic.TreeNode;
 
+import java.util.Scanner;
 public class Main {
 	public static void main(String[] args) {
-//		 int [] in= {4,7,2,1,5,8,6,15,4};
-//		BinaryTreeTrav btt = new BinaryTreeTrav();
-//		Sorts sorts=new Sorts();
-//		sorts.QuickSort1(in,0,in.length-1);
-//		System.out.println(Arrays.toString(in));
-//		System.out.println(Arrays.toString(sorts.BubbleSort1(in)));
-
-		
-		Scanner scan = new Scanner(System.in);
-		Set<Integer> s=new TreeSet<Integer>();
-		while (scan.hasNext()) {
-			int tmp = scan.nextInt();
-			for(int i=0;i<tmp;i++) {
-				s.add(scan.nextInt());
+		Scanner sc = new Scanner(System.in);
+		while (sc.hasNext()) {
+			StringBuffer sb=new StringBuffer();
+			String n = sc.nextLine();
+			String[] num=n.split(" ");
+			int []arr=new int[num.length];
+			for(int i=0;i<num.length;i++) {
+				arr[i]=Integer.valueOf(num[i]);
+//				System.out.println(arr[i]);
 			}
-			for(int value:s){  
-	            System.out.println(value);  
-	        } 
-//			System.out.println(getNum(tmp));
+			ArrayList<Integer> list=FindNumbersWithSum(arr,0);
+			System.out.println(list.toString());
+//			int low=0;
+//			int high=arr.length-1;
+//			System.out.println(low+" "+high);
+//			while(low<high) {
+//				if(arr[low]+arr[high]>15) {
+//					high--;
+//					System.out.println(high);
+//				}else if(arr[low]+arr[high]<15){
+//					low++;
+//					System.out.println(low);
+//				}else {
+//					break;
+//				}
+//			}
+//			System.out.println(arr[low]+" "+arr[high]);
 		}
-		scan.close();
+		sc.close();
+	}
+	public static ArrayList<Integer> FindNumbersWithSum(int [] array,int sum) {
+		ArrayList<Integer> list=new ArrayList<Integer>();
+		int low=0;
+		int high=array.length-1;
+		while(low<high) {
+			if(array[low]+array[high]>sum) {
+				high--;
+			}else if(array[low]+array[high]<sum){
+				low++;
+			}else {
+				break;
+			}
+		}
+		if(low>=high) {
+			return list;
+		}
+		list.add(array[low]);
+		list.add(array[high]);
+		return list;
+    }
+	public static int[] FindNumsAppearOnce(int[] array) {
+		int[] num = new int[2];
+		if (array == null || array.length < 2) {
+			return null;
+		}
+		int len = array.length, index = 0, sum = 0;
+		for (int i = 0; i < len; i++) {
+			sum ^= array[i];
+		}
+		for (index = 0; index < 32; index++) {
+			if ((sum & (1 << index)) != 0)
+				break;
+		}
+		for (int i = 0; i < len; i++) {
+			if ((array[i] & (1 << index)) != 0) {
+				num[0] ^= array[i];
+			} else {
+				num[1] ^= array[i];
+			}
+		}
+		return num;
+	}
+	public static String bankStr(String str) {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < str.length(); i++) {
+			if ((str.charAt(i) + "").matches("[a-zA-Z]+")) {
+				if (i != 0 && !(str.charAt(i - 1) + "").matches("[a-zA-Z]+")) {
+					sb.append("<>");
+				}
+				sb.append(str.charAt(i));
+			} else {
+				if (i != 0 && (str.charAt(i - 1) + "").matches("[a-zA-Z]+")) {
+					sb.append("<>");
+				}
+				sb.append(str.charAt(i));
+			}
+		}
+		if (!(str.charAt(str.length() - 1) + "").matches("[a-zA-Z]+")) {
+			sb.append("<>");
+		}
+
+		return sb.toString();
+	}
+	public static int FindGreatestSumOfSubArray(int[] array) {
+		if(array.length==0) {
+			return 0;
+		}
+		int total=array[0],maxSum=array[0];
+		for(int i=1;i<array.length;i++){
+			if(total>=0) {
+				total+=array[i];
+			}
+			else {
+				total=array[i];
+			}
+			if(total>maxSum) {
+				maxSum=total;
+			}
+		}
+		return maxSum;
+	}
+	public static String avgJ(int n) {
+		int sum = 0;
+		for (int i = 2; i < n; i++) {
+			int temp = n;
+			while (temp != 0) {
+				sum += temp % i;
+				temp = temp / i;
+			}
+		}
+		int count = n - 2;
+		int a = sum;
+		int b = count;
+		while (a % b != 0) {
+			int c = a % b;
+			a = b;
+			b = c;
+		}
+		return sum / b + "/" + count / b + "";
+	}
+	public static String stringSum(String str1,String str2) {
+		Stack<Integer> stack=new Stack<Integer>();
+		StringBuffer sb=new StringBuffer();
+		int len1=str1.length()-1;
+		int len2=str2.length()-1;
+		int p=0;
+		while(len1>=0&&len2>=0) {
+			if(str1.charAt(len1)>'9'||str1.charAt(len1)<'0'||str2.charAt(len2)>'9'||str2.charAt(len2)<'0') {
+				return "Error";
+			}
+			int bsum=Integer.valueOf(str1.charAt(len1)-48)+Integer.valueOf(str2.charAt(len2)-48)+p;
+			p=bsum/10;
+			stack.push(bsum%10);
+			len1--;
+			len2--;
+		}
+		if(len1>=0) {
+			for(int i=len1;i>=0;i--) {
+				stack.push(Integer.valueOf(str1.charAt(i)-48)+p);
+				p=0;
+			}
+		}
+		if(len2>=0){
+			for(int i=len2;i>=0;i--) {
+				stack.push(Integer.valueOf(str2.charAt(i)-48)+p);
+				p=0;
+			}
+		}
+		while(!stack.isEmpty()) {
+			sb.append(stack.pop());
+		}
+		return sb.toString();
+	}
+	public static String stayMax(String str,int n) {
+		StringBuffer sb=new StringBuffer();
+		if(n>str.length()||str.length()>1000) {
+			return "0";
+		}
+		char[] ch=str.toCharArray();
+		char[] tmp=str.toCharArray();
+		Arrays.sort(tmp);
+		int j=0;
+		while(j<n) {
+			for(int i=0;i<ch.length;i++) {
+				if(ch[i]==tmp[j]) {
+					ch[i]='a';
+					break;
+				}
+			}
+			j++;
+		}
+		for(int i=0;i<ch.length;i++) {
+			if(ch[i]!='a') {
+				sb.append(ch[i]);
+			}
+		}
+		return sb.toString();
+	}
+	public static int toutiao1(int[] A) {
+		Arrays.sort(A);
+		int count = 1, sum = 0;
+		for (int i = 0; i < A.length - 1; i++) {
+			if (A[i + 1] - A[i] <= 10) {
+				if (count < 3) {
+					count++;
+				} else {
+					count = 1;
+				}
+			} else {
+				sum += (3 - count);
+				count = 1;
+			}
+		}
+		sum += (3 - count);
+		return sum;
+	}
+	public static int[] fan(Deque<Integer> deque) {
+		int [] res=new int[deque.size()];
+		int i=0;
+		while(deque.size()>0){
+            int temp = deque.poll();
+            res[i++]=temp;
+//            System.out.print(temp+" ");
+        }
+		return res;
+	}
+	
+	public static TreeNode treeInit() {
+		TreeNode a = new TreeNode(1);
+		TreeNode b = new TreeNode(2, null, a);
+		TreeNode c = new TreeNode(3);
+		TreeNode d = new TreeNode(4, b, c);
+		TreeNode e = new TreeNode(5);
+		TreeNode i = new TreeNode(6);
+		TreeNode f = new TreeNode(7, e, i);
+		TreeNode g = new TreeNode(8, null, f);
+		TreeNode h = new TreeNode(9, d, g);
+		return h;// root
+	}
+	
+	public static ArrayList<Integer> preorderTraversa(TreeNode root) {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		Stack<TreeNode> stack = new Stack<TreeNode>();
+		if (root != null) {
+			stack.push(root);
+			while (!stack.isEmpty()) {
+				TreeNode tN = stack.pop();
+				list.add(tN.getIntVal());
+				if (tN.getRight() != null) {
+					stack.push(tN.getRight());
+				}
+				if (tN.getLeft() != null) {
+					stack.push(tN.getLeft());
+				}
+			}
+		}
+		return list;
+
+	}
+	public static ArrayList<Integer> inorderTraversa(TreeNode root) {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		Stack<TreeNode> stack = new Stack<TreeNode>();
+		TreeNode tN = root;
+		while (!stack.isEmpty() || tN != null) {
+			while (tN != null) {
+				stack.push(tN);
+				tN = tN.getLeft();
+			}
+			if (!stack.isEmpty()) {
+				tN = stack.pop();
+				list.add(tN.getIntVal());
+				tN = tN.getRight();
+			}
+		}
+		return list;
 	}
 
+	public static ArrayList<Integer> postorderTraversa(TreeNode root) {
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		Stack<TreeNode> stack = new Stack<TreeNode>();
+		TreeNode tN = root, prev = root;
+		while (!stack.isEmpty() || tN != null) {
+			while (tN != null) {
+				stack.push(tN);
+				tN = tN.getLeft();
+			}
+			if (!stack.isEmpty()) {
+				TreeNode tmp = stack.peek().getRight();
+				if (tmp == null || prev == tmp) {
+					tN = stack.pop();
+					list.add(tN.getIntVal());
+					prev = tN;
+					tN = null;
+				} else {
+					tN = tmp;
+				}
+			}
+		}
+		return list;
+	}
+	public static String geoHash(int n){
+    	int low=-90;
+        int high=90;
+        int count=0;
+        StringBuffer sb=new StringBuffer();
+        while(count++<6){
+        	int mid=(low+high)/2;
+        	if(mid>n){
+        		high=mid;
+        		sb.append(0);
+        	}else {
+        		low=mid;
+        		sb.append(1);
+        	}
+        }
+        return sb.toString();
+    }
+	public static boolean iscon(char str){
+        if(str=='A'||str=='B'||str=='C'||str=='D'||str=='E'){
+        	return true;
+        }
+        return false;
+    }
+	public static String insertSpace(String str,int start) {
+		StringBuffer sb=new StringBuffer();
+		for(int i=0;i<=str.length();i++) {
+			if(i<start) {
+				sb.append(str.charAt(i));
+			}else if(i==start) {
+				sb.append(" ");
+			}else {
+				sb.append(str.charAt(i-1));
+			}
+		}
+		return sb.toString();
+	}
+	public static boolean isCon(String string,char ch) {
+		for(int i=0;i<string.length();i++) {
+			if(ch==string.charAt(i)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	public static int count(String str) {
+		
+		return "345678910JQKA2jokerJOKER".indexOf(str);
+	}
+	public static boolean isBomb(String str) {
+		if(str.equals("joker JOKER")||str.equals("joker")||str.equals("JOKER")) {
+			return true;
+		}
+		return false;
+	}
+	public static void update(int[] array,int pos,int tar){
+        array[pos]=tar;
+    }
+    public static int getMaxs(int[] array,int start,int end){
+        int max=0;
+        if(start>end) {
+        	int tmp=start;
+        	start=end;
+        	end=tmp;
+        }
+        for(int i=start;i<=end;i++){
+            if(max<array[i]){
+                max=array[i];
+            }
+        }
+        return max;
+    }
 public static int getNum(int A) {
 	int count=0;
 	int cnt=A;
@@ -127,7 +466,7 @@ public static int getNum(int A) {
 		queue.offer(tn);
 		while(!queue.isEmpty()) {
 			TreeNode tmp=queue.poll();
-			visit(tmp);
+			visitInt(tmp);
 			if(tmp.getLeft()!=null) {
 				queue.add(tmp.getLeft());
 			}
@@ -201,7 +540,12 @@ public static int getNum(int A) {
 	public static void visit(TreeNode p) {
 		System.out.print(p.getCharVal() + " ");
 	}
-	
+	/**
+	 * 访问节点
+	 */
+	public static void visitInt(TreeNode p) {
+		System.out.print(p.getIntVal() + " ");
+	}
 	public static int[] SelectSort(int[] array) {
 		int l=array.length;
 		for(int i=0;i<l-1;i++) {
